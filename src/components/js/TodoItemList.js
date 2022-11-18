@@ -3,11 +3,23 @@ import TodoItem from './TodoItem';
 
 class TodoItemList extends Component {
     render() {
+        const { todos, onToggle, onRemove } = this.props;
+
+        const todoList = todos.map(
+            ({ id, content, isComplete }) => (
+                <TodoItem
+                    id={id}
+                    content={content}
+                    isComplete={isComplete}
+                    onToggle={onToggle}
+                    onRemove={onRemove}
+                    key={id} />
+            )
+        );
+
         return (
             <div>
-                <TodoItem content='TodoItem1' />
-                <TodoItem content='TodoItem2' />
-                <TodoItem content='TodoItem3' />
+                {todoList}
             </div>
         )
     }

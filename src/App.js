@@ -2,6 +2,7 @@ import React from 'react';
 import TodoListTemplate from './components/js/TodoListTemplate';
 import Form from './components/js/Form';
 import TodoItemList from './components/js/TodoItemList';
+import TodoItem from './components/js/TodoItem';
 
 class App extends React.Component {
   constructor(props) {
@@ -53,11 +54,11 @@ class App extends React.Component {
         <TodoListTemplate form={(
           <Form
             value={this.state.input}
-            onChannge={this.handleChange}
+            onChange={this.handleChange}
             onCreate={this.handleCreate}
             onKeyPress={this.handleKeyPress} />
         )}>
-          <TodoItemList />
+          <TodoItemList todos={this.state.todos} />
         </TodoListTemplate>
       </div >
     );
