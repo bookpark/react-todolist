@@ -7,51 +7,79 @@ import TodoItem from './components/js/TodoItem';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.id = 2;
+    // this.id = 2;
     this.state = {
-      input: "",
+      // input: "",
       todos: [
-        { id: 0, content: '리액트 공부', isComplete: false },
-        { id: 1, content: '스프링 공부', isComplete: true },
+        // { id: 0, content: '리액트 공부', isComplete: false },
+        // { id: 1, content: '스프링 공부', isComplete: true },
       ]
     }
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    // this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({
-      input: event.target.value
-    });
+  componentDidMount() {
+    this.handleInitInfo();
   }
 
-  handleCreate() {
-    const { input, todos } = this.state;
-    if (input === "") {
+  handleInitInfo() {
+    fetch("/api/todos")
+      .then(res => res.json())
+      .then(todos => this.setState({ todos: todos }))
+      .catch(err => console.log(err))
+  }
+
+  // handleChange(event) {
+  //   this.setState({
+  //     input: event.target.value
+  //   });
+  // }
+
+  handleCreate(inputValue) {
+    const { todos } = this.state;
+    if (inputValue === "") {
       alert('오늘 할 일을 입력해주세요!');
       return;
     }
     this.setState({
-      input: '',
+      // input: '',
       todos: todos.concat({
-        id: this.id++,
-        content: input,
+        id: ,
+        content: inputValue,
         isComplete: false
       })
     });
+
+    const data = {
+      body: JSON.stringify({ 'content': inputValue }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'post'
+    }
+
+    fetch("/api/todos", data)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        } else {
+          return this.handleInitInfo();
+        }
+      })
+      .catch(err => console.log(err));
   }
 
-  handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      this.handleCreate();
-    }
-  }
+
+  // handleKeyPress(event) {
+  //   if (event.key === 'Enter') {
+  //     this.handleCreate();
+  //   }
+  // }
 
   handleToggle(id) {
-    const todos = this.state.todos;
+    const todos = this.state;
     const isComplete = todos.find(todo => todo.id === id).isComplete;
     if (!window.confirm(isComplete ? "미완료 처리 하시겠습니가?" : "완료 하시겠습니까?")) {
       return;
@@ -75,10 +103,25 @@ class App extends React.Component {
     this.setState({
       todos: nextTodos
     });
+
+    const data = {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'put'
+    }
+
+    fetch("/api/todos/" + id, data)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        } else {
+          return this.handleInitInfo();
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   handleRemove(id) {
-    const todos = this.state.todos;
+    const todos = this.state;
 
     const removeContent = todos.find(todo => todo.id === id).content;
     if (!window.confirm("'" + removeContent + "' 을 삭제하시겠습니까?")) {
@@ -88,6 +131,21 @@ class App extends React.Component {
     this.setState({
       todos: todos.filter(todo => todo.id !== id)
     });
+
+    const data = {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'delete'
+    }
+
+    fetch("/api/todos/" + id, data)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        } else {
+          return this.handleInitInfo();
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -95,12 +153,14 @@ class App extends React.Component {
       <div>
         <TodoListTemplate form={(
           <Form
-            value={this.state.input}
-            onChange={this.handleChange}
+            // value={this.state.input}
+            // onChange={this.handleChange}
+            // onKeyPress={this.handleKeyPress} 
             onCreate={this.handleCreate}
-            onKeyPress={this.handleKeyPress} />
+          />
         )}>
-          <TodoItemList todos={this.state.todos}
+          <TodoItemList
+            todos={this.state.todos}
             onToggle={this.handleToggle}
             onRemove={this.handleRemove} />
         </TodoListTemplate>

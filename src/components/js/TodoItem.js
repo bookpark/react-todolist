@@ -2,9 +2,9 @@ import { Component } from 'react';
 import '../css/TodoItem.css';
 
 class TodoItem extends Component {
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props.isComplete !== nextProps.isComplete;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return this.props.isComplete !== nextProps.isComplete;
+    // }
 
     render() {
         const { content, isComplete, id, onToggle, onRemove } = this.props;
@@ -18,7 +18,7 @@ class TodoItem extends Component {
                 }>
                     &times;
                 </div>
-                <div className={`todo-item-content ${isComplete && 'isComplete'}`}>
+                <div className={`todo-item-text ${isComplete && 'isComplete'}`}>
                     <div>
                         {content}
                     </div>
