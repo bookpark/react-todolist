@@ -2,17 +2,22 @@ import React from 'react';
 import TodoListTemplate from './components/js/TodoListTemplate';
 import Form from './components/js/Form';
 import TodoItemList from './components/js/TodoItemList';
-import TodoItem from './components/js/TodoItem';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     // this.id = 2;
+    // this.state = {
+    //   input: "",
+    //   todos: [
+    //     { id: 0, content: '리액트 공부', isComplete: false },
+    //     { id: 1, content: '스프링 공부', isComplete: true },
+    //   ]
+    // }
     this.state = {
-      // input: "",
+      // input: '',
       todos: [
-        // { id: 0, content: '리액트 공부', isComplete: false },
-        // { id: 1, content: '스프링 공부', isComplete: true },
+
       ]
     }
     // this.handleChange = this.handleChange.bind(this);
@@ -20,6 +25,7 @@ class App extends React.Component {
     // this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleInitInfo = this.handleInitInfo.bind(this);
   }
 
   componentDidMount() {
@@ -48,7 +54,7 @@ class App extends React.Component {
     this.setState({
       // input: '',
       todos: todos.concat({
-        id: ,
+        id: 0,
         content: inputValue,
         isComplete: false
       })
@@ -71,7 +77,6 @@ class App extends React.Component {
       .catch(err => console.log(err));
   }
 
-
   // handleKeyPress(event) {
   //   if (event.key === 'Enter') {
   //     this.handleCreate();
@@ -79,7 +84,7 @@ class App extends React.Component {
   // }
 
   handleToggle(id) {
-    const todos = this.state;
+    const { todos } = this.state;
     const isComplete = todos.find(todo => todo.id === id).isComplete;
     if (!window.confirm(isComplete ? "미완료 처리 하시겠습니가?" : "완료 하시겠습니까?")) {
       return;
@@ -121,7 +126,7 @@ class App extends React.Component {
   }
 
   handleRemove(id) {
-    const todos = this.state;
+    const { todos } = this.state;
 
     const removeContent = todos.find(todo => todo.id === id).content;
     if (!window.confirm("'" + removeContent + "' 을 삭제하시겠습니까?")) {
@@ -155,7 +160,7 @@ class App extends React.Component {
           <Form
             // value={this.state.input}
             // onChange={this.handleChange}
-            // onKeyPress={this.handleKeyPress} 
+            // onKeyPress={this.handleKeyPress}
             onCreate={this.handleCreate}
           />
         )}>
