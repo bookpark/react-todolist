@@ -2,6 +2,10 @@ import { Component } from 'react';
 import '../css/TodoItem.css';
 
 class TodoItem extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.isComplete !== nextProps.isComplete;
+    }
+
     render() {
         const { content, isComplete, id, onToggle, onRemove } = this.props;
 
