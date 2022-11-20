@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { ArrowRight, Trash } from 'react-bootstrap-icons';
 import '../css/TodoItem.css';
 
 class TodoItem extends Component {
@@ -16,7 +17,7 @@ class TodoItem extends Component {
                     onRemove(id)
                 }
                 }>
-                    &times;
+                <Trash size={30}/>
                 </div>
                 <div className={`todo-item-text ${isComplete && 'isComplete'}`}>
                     <div>

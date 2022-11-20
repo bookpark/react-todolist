@@ -25,9 +25,14 @@
     border-top: 1px solid #f1f3f5;
 }
 
+.todo-item-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
 .todo-item-remove {
     margin-right: 1rem;
-    color: #e64980;
+    color: red;
     font-weight: 600;
     opacity: 0;
 }
@@ -44,7 +49,7 @@
 }
 
 .isComplete-mark {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     line-height: 1rem;
     margin-left: 1rem;
     color: #353b54e0;
